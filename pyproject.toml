@@ -9,15 +9,15 @@ description = "CLI tool for visualizing GDALG workflows"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-authors = [{ name = "Seth Girvin" }]
-urls = { 
-    "Homepage" = "https://github.com/geographika/gdalgviz",
-    "Repository" = "https://github.com/geographika/gdalgviz",
-    "Documentation" = "https://github.com/geographika/gdalgviz#readme"
-}
+authors = [{ "name" = "Seth Girvin", "email" = "sethg@geographika.co.uk" }]
 dependencies = [
   "graphviz>=0.20",
 ]
+
+[project.urls]
+Homepage = "https://github.com/geographika/gdalgviz"
+Repository = "https://github.com/geographika/gdalgviz"
+Documentation = "https://github.com/geographika/gdalgviz#readme"
 
 [project.scripts]
 gdalgviz = "gdalgviz.cli:main"
