@@ -1,0 +1,1 @@
+gdal pipeline read input.tif ! reproject --dst-crs=EPSG:4326 ! add overview --levels 16,64,128 ! write output.tif --format=COG

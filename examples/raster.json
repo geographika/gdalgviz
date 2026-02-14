@@ -1,0 +1,4 @@
+{
+    "type": "gdal_streamed_alg",
+    "command_line": "gdal raster pipeline ! read /vsicurl/https://some.storage.com/mydata/landcover.tif ! reproject -r mode -d EPSG:4326 --bbox=112,2,116,4.5 --bbox-crs=EPSG:4326 --size=3000,3000 ! materialize ! zonal-stats --zones=/vsicurl/https://some.storage.com/mydata/adm_level4.fgb --stat=values ! write out.geojson"
+}

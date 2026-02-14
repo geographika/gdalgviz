@@ -1,0 +1,4 @@
+{
+    "type": "gdal_streamed_alg",
+    "command_line": "gdal raster pipeline ! read n43.tif ! color-map --color-map color_file.txt ! tee [ write colored.tif --overwrite ] ! blend --operator=hsv-value --overlay [read n43.tif ! hillshade -z 30  ! tee [ write hillshade.tif --overwrite ] ] ! write colored-hillshade.tif --overwrite"
+}

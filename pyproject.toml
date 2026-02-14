@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gdalgviz"
+version = "0.1.0"
+description = "CLI tool for visualizing GDALG workflows"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Seth Girvin" }]
+dependencies = [
+  "graphviz>=0.20",
+]
+
+[project.scripts]
+gdalgviz = "gdalgviz.cli:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "black",
+  "mypy",
+  "ruff",
+]
+
+[tool.black]
+line-length = 88
+
+
+exclude = '''
+/(
+    \.venv
+  | \.git
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+exclude = '(\.venv|__pycache__|build|dist|tests)'
