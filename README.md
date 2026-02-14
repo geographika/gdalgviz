@@ -4,16 +4,33 @@ A Python library to visualise [GDAL pipelines](https://gdal.org/en/latest/progra
 
 ## Installation
 
-Requires [graphviz](https://graphviz.org/download/) to be installed on the system, and 
-has a dependency on the [graphviz](https://pypi.org/project/graphviz/) Python package.
+Requires [graphviz](https://graphviz.org/) to be installed on the system and available on the
+system PATH. See the [installation instructions](https://graphviz.org/download/) for your operating system.
 
-On Windows:
+On Linux (example installation):
+
+```bash
+apt update
+apt install graphviz --yes
+dot -V
+apt install pipx --yes
+pipx ensurepath
+pipx install gdalgviz
+# for Docker images
+# export PATH="$HOME/.local/bin:$PATH"
+gdalgviz --version
+gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+```
+
+On Windows (assuming pip and Python are on the system PATH):
 
 ```powershell
 $GVIZ_PATH = "C:\Program Files\Graphviz\bin"
 $env:PATH = "$GVIZ_PATH;$env:PATH"
+dot -V
 pip install gdalgviz
 gdalgviz --version
+gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
 ```
 
 ## Usage
@@ -29,12 +46,14 @@ gdalgviz ./examples/tee.json ./examples/tee.svg
 Passing a pipeline as a string:
 
 ```bash
-gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" ./examples/pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
 ```
 
 ![Workflow Diagram](./examples/pipeline.svg)
 
-- Handles both JSON and text input. See [JSON Schema](./examples/gdalg.schema.json)
+- Handles both JSON and text input. See [JSON Schema](./examples/gdalg.schema.json) for the required JSON structure.
+- SVG output supports clickable nodes that link to the corresponding GDAL documentation for each command. 
+  See the [example](https://raw.githubusercontent.com/geographika/gdalgviz/refs/heads/main/examples/tee.svg).
 - Supports [nested pipelines](https://gdal.org/en/latest/programs/gdal_pipeline.html#nested-pipeline). These
   allow sub-pipelines to be run in parallel and merged later.
 - Supports [tee](https://gdal.org/en/latest/programs/gdal_pipeline.html#output-nested-pipeline) - 

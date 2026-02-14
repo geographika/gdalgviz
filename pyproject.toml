@@ -10,6 +10,11 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "Seth Girvin" }]
+urls = { 
+    "Homepage" = "https://github.com/geographika/gdalgviz",
+    "Repository" = "https://github.com/geographika/gdalgviz",
+    "Documentation" = "https://github.com/geographika/gdalgviz#readme"
+}
 dependencies = [
   "graphviz>=0.20",
 ]
