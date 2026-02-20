@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 from gdalgviz import __version__
-from gdalgviz.gdalgviz import generate_diagram
+from gdalgviz.main import generate_diagram
 
 
 def parse_file(fn: str) -> str:
