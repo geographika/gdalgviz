@@ -7,6 +7,8 @@ A Python library to visualise [GDAL pipelines](https://gdal.org/en/latest/progra
 Requires [graphviz](https://graphviz.org/) to be installed on the system and available on the
 system PATH. See the [installation instructions](https://graphviz.org/download/) for your operating system.
 
+GDAL itself is not required to be installed to use this library, as it only visualises the pipeline, it does not execute it.
+
 On Linux (example installation):
 
 ```bash
@@ -19,7 +21,7 @@ pipx install gdalgviz
 # for Docker images
 # export PATH="$HOME/.local/bin:$PATH"
 gdalgviz --version
-gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
 ```
 
 On Windows (assuming pip and Python are on the system PATH):
@@ -30,7 +32,7 @@ $env:PATH = "$GVIZ_PATH;$env:PATH"
 dot -V
 pip install gdalgviz
 gdalgviz --version
-gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
 ```
 
 ## Usage
@@ -46,7 +48,7 @@ gdalgviz ./examples/tee.json ./examples/tee.svg
 Passing a pipeline as a string:
 
 ```bash
-gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
 ```
 
 ![Workflow Diagram](./examples/pipeline.svg)
@@ -79,7 +81,7 @@ ruff check . --fix
 # mypy .
 pytest tests
 gdalgviz ./examples/tee.json ./examples/tee.svg
-gdalgviz --pipeline "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" ./examples/pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" ./examples/pipeline.svg
 
 ```
 

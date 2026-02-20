@@ -3,41 +3,41 @@ from gdalgviz.gdalgviz import split_pipeline, parse_step, parse_step_recursive
 
 def test_split_pipeline():
     res = split_pipeline(
-        "gdal vector pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
     res = split_pipeline(
-        "gdal vector pipeline read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "gdal vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
     res = split_pipeline(
-        "GDAL vector pipeline read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "GDAL vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
     res = split_pipeline(
-        "GDAL pipeline read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "GDAL pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
     res = split_pipeline(
-        "gdal raster pipeline read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "gdal raster pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
     res = split_pipeline(
-        "gdal raster pipeline ! read in.tif ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+        "gdal raster pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     )
     assert len(res) == 3
 
 
 def test_parse_step():
-    res = parse_step("read in.tif")
+    res = parse_step("read in.gpkg")
     assert len(res) == 2
     assert res[0] == "read"
-    assert len(res[1]) == 1 and res[1][0] == "in.tif"
+    assert len(res[1]) == 1 and res[1][0] == "in.gpkg"
 
     res = parse_step(
         "reproject -r mode -d EPSG:4326 --bbox=112,2,116,4.5 --bbox-crs=EPSG:4326 --size 3000,3000"
