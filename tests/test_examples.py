@@ -1,7 +1,10 @@
 from gdalgviz.main import generate_diagram
+from gdalgviz.parser import parse_pipeline
 from pathlib import Path
 import re
 import sys
+import json
+
 
 UPDATE_REFERENCES = "--update-references" in sys.argv
 OUTPUT_DIR = Path("./tests/output")
@@ -19,14 +22,38 @@ def normalize_svg(svg_text: str) -> str:
     return svg_text.strip()
 
 
-def assert_svg_equal(output_path: Path, reference_path: Path):
+def assert_pipeline_equal(steps: list, name: str):
+    output_path = OUTPUT_DIR / f"{name}.json"
+    reference_path = REFERENCE_DIR / f"{name}.json"
 
+    output_json = json.dumps(steps, indent=2, sort_keys=True)
+    output_path.write_text(output_json, encoding="utf-8")
+
+    if UPDATE_REFERENCES:
+        reference_path.write_text(output_json, encoding="utf-8")
+        print(f"  Updated reference: {reference_path.name}")
+        return
+
+    reference_json = reference_path.read_text(encoding="utf-8")
+    assert output_json == reference_json, (
+        f"Pipeline mismatch for {name}:\n"
+        f"  output:    {output_path}\n"
+        f"  reference: {reference_path}"
+    )
+
+
+def assert_svg_equal(output_path: Path, reference_path: Path):
+    """
+    graphviz produces different outputs depending on OS and Graphviz version
+    """
     if UPDATE_REFERENCES:
         import shutil
 
         shutil.copy(output_path, reference_path)
         print(f"  Updated reference: {reference_path.name}")
         return
+
+    # skip this test in CI because of variability in Graphviz output
 
     output = normalize_svg(output_path.read_text(encoding="utf-8"))
     reference = normalize_svg(reference_path.read_text(encoding="utf-8"))
@@ -38,6 +65,8 @@ def assert_svg_equal(output_path: Path, reference_path: Path):
 def test_vector_pipeline():
     output_path = OUTPUT_DIR / "test_vector_pipeline.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vector_pipeline")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline.svg")
 
@@ -45,6 +74,8 @@ def test_vector_pipeline():
 def test_vector_pipeline_with_bang():
     output_path = OUTPUT_DIR / "test_vector_pipeline_with_bang.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vector_pipeline_with_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline_with_bang.svg")
 
@@ -52,6 +83,8 @@ def test_vector_pipeline_with_bang():
 def test_vector_pipeline_without_bang():
     output_path = OUTPUT_DIR / "test_vector_pipeline_without_bang.svg"
     pipeline = "gdal vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vector_pipeline_without_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
         output_path, REFERENCE_DIR / "test_vector_pipeline_without_bang.svg"
@@ -61,6 +94,8 @@ def test_vector_pipeline_without_bang():
 def test_vector_pipeline_uppercase_gdal():
     output_path = OUTPUT_DIR / "test_vector_pipeline_uppercase_gdal.svg"
     pipeline = "GDAL vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vector_pipeline_uppercase_gdal")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
         output_path, REFERENCE_DIR / "test_vector_pipeline_uppercase_gdal.svg"
@@ -70,6 +105,8 @@ def test_vector_pipeline_uppercase_gdal():
 def test_gdal_pipeline_no_type():
     output_path = OUTPUT_DIR / "test_gdal_pipeline_no_type.svg"
     pipeline = "GDAL pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_gdal_pipeline_no_type")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_gdal_pipeline_no_type.svg")
 
@@ -77,6 +114,8 @@ def test_gdal_pipeline_no_type():
 def test_raster_pipeline_without_bang():
     output_path = OUTPUT_DIR / "test_raster_pipeline_without_bang.svg"
     pipeline = "gdal raster pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_raster_pipeline_without_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
         output_path, REFERENCE_DIR / "test_raster_pipeline_without_bang.svg"
@@ -86,6 +125,8 @@ def test_raster_pipeline_without_bang():
 def test_raster_pipeline_with_bang():
     output_path = OUTPUT_DIR / "test_raster_pipeline_with_bang.svg"
     pipeline = "gdal raster pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_raster_pipeline_with_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_raster_pipeline_with_bang.svg")
 
@@ -98,6 +139,8 @@ def test_nested_input():
                     [ read n43.tif ! hillshade -z 30 ] !
                 write out.tif --overwrite
         """
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_nested_input")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_input.svg")
 
@@ -120,6 +163,8 @@ def test_nested_output():
                 ]
             ! write colored-hillshade.tif --overwrite
         """
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_nested_output")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_output.svg")
 
@@ -132,6 +177,8 @@ def test_expressions():
     ! reclassify -m "[0,15)=NO_DATA; [15,20)=1; [20,1000)=2; DEFAULT=NO_DATA" 
     ! polygonize -c ! write --format OpenFileGDB --update --output-layer slope2026_percent.gdb
     """
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_expressions")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_expressions.svg")
 
