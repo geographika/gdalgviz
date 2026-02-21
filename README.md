@@ -37,6 +37,29 @@ gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=E
 
 ## Usage
 
+```
+usage: gdalgviz [-h] [--pipeline PIPELINE] [--vertical] [--font FONT] [--header-color HEADER_COLOR] [--version] [--docs-root DOCS_ROOT] [input_path] output_path
+
+Visualize GDAL datasets from the command line
+
+positional arguments:
+  input_path            Path to a GDALG pipeline in JSON or text format
+  output_path           Path to save the generated diagram (e.g., output.svg)
+
+options:
+  -h, --help            show this help message and exit
+  --pipeline PIPELINE   Provide a raw GDALG pipeline string instead of a file
+  --vertical            Render the diagram top-to-bottom instead of left-to-right
+  --font FONT           Font name for diagram nodes (default: Helvetica)
+  --header-color HEADER_COLOR
+                        Background color for node headers as a hex color code (default: #cfe2ff)
+  --version             show program's version number and exit
+  --docs-root DOCS_ROOT
+                        Root URL for GDAL documentation links(default: https://gdal.org/en/latest/programs)
+```
+
+## Examples
+
 Passing a pipeline as a JSON file ([tee.json](./examples/tee.json)):
 
 ```bash
@@ -52,6 +75,16 @@ gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=E
 ```
 
 ![Workflow Diagram](./examples/pipeline.svg)
+
+Using the vertical layout option, with a custom font and header colour:
+
+```bash
+gdalgviz ./examples/tee.json ./examples/tee-custom.svg --vertical --font "Courier" --header-color "#ffdd99"
+```
+
+![Custom Workflow Diagram](./examples/tee-custom.svg)
+
+## Features
 
 - Handles both JSON and text input. See [JSON Schema](./examples/gdalg.schema.json) for the required JSON structure.
 - SVG output supports clickable nodes that link to the corresponding GDAL documentation for each command. 
@@ -90,3 +123,4 @@ gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=E
 - Add JSON schema validation
 - Add colour coding of the graph depending on if the command is raster, vector etc.
 - Add types to the codebase
+- Add pipeline command formatting

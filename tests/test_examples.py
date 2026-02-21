@@ -5,7 +5,6 @@ import re
 import sys
 import json
 
-
 UPDATE_REFERENCES = "--update-references" in sys.argv
 OUTPUT_DIR = Path("./tests/output")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -183,6 +182,108 @@ def test_expressions():
     assert_svg_equal(output_path, REFERENCE_DIR / "test_expressions.svg")
 
 
+def test_vertical_layout():
+    output_path = OUTPUT_DIR / "test_vertical_layout.svg"
+    pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vertical_layout")
+    generate_diagram(pipeline, str(output_path), vertical=True)
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_vertical_layout.svg")
+
+
+def test_custom_font():
+    output_path = OUTPUT_DIR / "test_custom_font.svg"
+    pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_custom_font")
+    generate_diagram(pipeline, str(output_path), fontname="Courier")
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_custom_font.svg")
+
+
+def test_custom_docs_root():
+    output_path = OUTPUT_DIR / "test_custom_docs_root.svg"
+    pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
+    custom_root = "https://my-mirror.example.com/gdal/programs"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_custom_docs_root")
+    generate_diagram(pipeline, str(output_path), docs_root=custom_root)
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_custom_docs_root.svg")
+
+
+def test_nested_output_vertical():
+    output_path = OUTPUT_DIR / "test_nested_output_vertical.svg"
+    pipeline = """gdal raster pipeline
+            ! read n43.tif
+            ! color-map --color-map color_file.txt
+            ! tee
+                [ write colored.tif --overwrite ]
+            ! blend --operator=hsv-value --overlay
+                [
+                    read n43.tif
+                    ! hillshade -z 30
+                    ! tee
+                        [
+                            write hillshade.tif --overwrite
+                        ]
+                ]
+            ! write colored-hillshade.tif --overwrite
+        """
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_nested_output_vertical")
+    generate_diagram(pipeline, str(output_path), vertical=True)
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_output_vertical.svg")
+
+
+def test_nested_output_custom_colors():
+    output_path = OUTPUT_DIR / "test_nested_output_custom_colors.svg"
+    pipeline = """gdal raster pipeline
+            ! read n43.tif
+            ! color-map --color-map color_file.txt
+            ! tee
+                [ write colored.tif --overwrite ]
+            ! blend --operator=hsv-value --overlay
+                [
+                    read n43.tif
+                    ! hillshade -z 30
+                    ! tee
+                        [
+                            write hillshade.tif --overwrite
+                        ]
+                ]
+            ! write colored-hillshade.tif --overwrite
+        """
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_nested_output_custom_colors")
+    generate_diagram(
+        pipeline,
+        str(output_path),
+        header_color="#ffdd99",
+        fontname="Courier",
+        vertical=True,
+    )
+    assert_svg_equal(
+        output_path, REFERENCE_DIR / "test_nested_output_custom_colors.svg"
+    )
+
+
+def test_all_options():
+    output_path = OUTPUT_DIR / "test_all_options.svg"
+    pipeline = (
+        "gdal raster pipeline ! read in.tif ! slope --unit percent ! write out.tif"
+    )
+    custom_root = "https://my-mirror.example.com/gdal/programs"
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_all_options")
+    generate_diagram(
+        pipeline,
+        str(output_path),
+        vertical=True,
+        fontname="Courier",
+        docs_root=custom_root,
+    )
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_all_options.svg")
+
+
 if __name__ == "__main__":
     test_vector_pipeline()
     test_vector_pipeline_with_bang()
@@ -194,4 +295,10 @@ if __name__ == "__main__":
     test_nested_input()
     test_nested_output()
     test_expressions()
+    test_vertical_layout()
+    test_custom_font()
+    test_custom_docs_root()
+    test_nested_output_vertical()
+    test_nested_output_custom_colors()
+    test_all_options()
     print("Done!")

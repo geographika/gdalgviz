@@ -1,11 +1,20 @@
 import argparse
+import re
 import sys
 import json
 from pathlib import Path
 from typing import Optional
 
 from gdalgviz import __version__
-from gdalgviz.main import generate_diagram
+from gdalgviz.main import generate_diagram, DOCS_ROOT
+
+
+def validate_color(color: str) -> str:
+    if not re.match(r"^#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?$", color):
+        raise argparse.ArgumentTypeError(
+            f"Invalid hex color '{color}'. Expected format: #rgb or #rrggbb"
+        )
+    return color
 
 
 def parse_file(fn: str) -> str:
@@ -52,9 +61,35 @@ def main(argv: Optional[list[str]] = None) -> int:
     )
 
     parser.add_argument(
+        "--vertical",
+        action="store_true",
+        default=False,
+        help="Render the diagram top-to-bottom instead of left-to-right",
+    )
+
+    parser.add_argument(
+        "--font",
+        default="Helvetica",
+        help="Font name for diagram nodes (default: Helvetica)",
+    )
+
+    parser.add_argument(
+        "--header-color",
+        default="#cfe2ff",
+        type=validate_color,
+        help="Background color for node headers as a hex color code (default: #cfe2ff)",
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version=f"gdalgviz {__version__}",
+    )
+
+    parser.add_argument(
+        "--docs-root",
+        default=None,
+        help=("Root URL for GDAL documentation links" f"(default: {DOCS_ROOT})"),
     )
 
     args = parser.parse_args(argv)
@@ -77,6 +112,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     exit_code = generate_diagram(
         pipeline=pipeline,
         output_fn=args.output_path,
+        vertical=args.vertical,
+        fontname=args.font,
+        header_color=args.header_color,
+        docs_root=args.docs_root or DOCS_ROOT,
     )
 
     return exit_code

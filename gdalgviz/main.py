@@ -7,9 +7,9 @@ from gdalgviz.parser import parse_pipeline
 # supported by Graphviz
 VALID_FORMATS = ["svg", "png", "pdf", "jpg"]
 # URL to GDAL command documentation
-GDAL_DOCS_URL_TEMPLATE = (
-    "https://gdal.org/en/latest/programs/gdal_{cmd_type}_{command}.html"
-)
+DOCS_ROOT = "https://gdal.org/en/latest/programs"
+COMMAND_TEMPLATE = "{docs_root}/gdal_{cmd_type}_{command}.html"
+
 # general commands that don't have dedicated docs pages
 GDAL_OPERATORS = ("read", "write", "tee")
 
@@ -58,6 +58,8 @@ def _run_nested_pipeline(
     parent_ids: List[Optional[str]],
     node_counter: List[int],
     pipeline_type: Optional[str],
+    header_color: str = "#cfe2ff",
+    docs_root: str = DOCS_ROOT,
 ) -> List[str]:
     """Chain a list of steps sequentially, returning the final node ids."""
     current_parents = parent_ids
@@ -68,6 +70,8 @@ def _run_nested_pipeline(
             parent_ids=current_parents,
             node_counter=node_counter,
             pipeline_type=pipeline_type,
+            header_color=header_color,
+            docs_root=docs_root,
         )
     return current_parents
 
@@ -78,10 +82,12 @@ def add_step_node(
     parent_ids: List[Optional[str]],
     node_counter: List[int],
     pipeline_type: Optional[str] = None,
+    header_color: str = "#cfe2ff",
+    docs_root: str = DOCS_ROOT,
 ) -> List[str]:
     cmd = _extract_cmd(step_dict)
     args = step_dict.get("args", [])
-    label = step_label_html(cmd, args)
+    label = step_label_html(cmd, args, header_color=header_color)
 
     node_id = str(node_counter[0])
     node_counter[0] += 1
@@ -91,7 +97,9 @@ def add_step_node(
     # create the node
     if cmd_type and cmd.lower() not in GDAL_OPERATORS:
         cmd_cleaned = cmd.replace("-", "_")
-        url = GDAL_DOCS_URL_TEMPLATE.format(cmd_type=cmd_type, command=cmd_cleaned)
+        url = COMMAND_TEMPLATE.format(
+            docs_root=docs_root, cmd_type=cmd_type, command=cmd_cleaned
+        )
         g.node(node_id, label=label, URL=url, tooltip=url, target="_blank")
     else:
         g.node(node_id, label=label)
@@ -119,6 +127,8 @@ def add_step_node(
             parent_ids=[node_id],
             node_counter=node_counter,
             pipeline_type=pipeline_type,
+            header_color=header_color,
+            docs_root=docs_root,
         )
         return [node_id]
 
@@ -129,6 +139,8 @@ def add_step_node(
         parent_ids=[],
         node_counter=node_counter,
         pipeline_type=pipeline_type,
+        header_color=header_color,
+        docs_root=docs_root,
     )
     for nid in final_ids:
         g.edge(nid, node_id)
@@ -145,11 +157,11 @@ def _html_escape(text: str) -> str:
     )
 
 
-def step_label_html(cmd: str, args: List[Dict]) -> str:
+def step_label_html(cmd: str, args: List[Dict], header_color: str = "#cfe2ff") -> str:
     """
     Create an HTML-like Graphviz label for a node
     """
-    rows = [f'<TR><TD BGCOLOR="#cfe2ff" ALIGN="CENTER"><B>{cmd}</B></TD></TR>']
+    rows = [f'<TR><TD BGCOLOR="{header_color}" ALIGN="CENTER"><B>{cmd}</B></TD></TR>']
 
     for arg in args:
         t = arg["type"]
@@ -178,7 +190,9 @@ def step_label_html(cmd: str, args: List[Dict]) -> str:
 
 
 def _extract_cmd(step_dict: Dict) -> str:
-    """Get the operative command word from a step dict (last word of command field)."""
+    """
+    Get the command from a step dict (last word of command field)
+    """
     return step_dict["command"].split()[-1]
 
 
@@ -187,19 +201,26 @@ def workflow_diagram(
     output_format: str,
     pipeline_type: Optional[str] = None,
     title: str = "GDALG Workflow",
+    vertical: bool = False,
+    fontname: str = "Helvetica",
+    header_color: str = "#cfe2ff",
+    docs_root: str = DOCS_ROOT,
 ) -> Digraph:
-    """Build a Graphviz diagram from a structured pipeline dict list."""
+    """
+    Build a Graphviz diagram from a structured pipeline dict list
+    """
 
     display_steps = steps
     if steps and _is_pipeline_header(steps[0]):
         display_steps = steps[1:]
 
+    rankdir = "TB" if vertical else "LR"
     g = Digraph(
         name=title,
         format=output_format,
-        graph_attr={"rankdir": "LR"},
+        graph_attr={"rankdir": rankdir},
     )
-    g.attr("node", shape="plain", fontname="Helvetica")
+    g.attr("node", shape="plain", fontname=fontname)
 
     node_counter = [0]
     last_ids: List[str] = []
@@ -211,6 +232,8 @@ def workflow_diagram(
             parent_ids=last_ids or [None],
             node_counter=node_counter,
             pipeline_type=pipeline_type,
+            header_color=header_color,
+            docs_root=docs_root,
         )
 
     return g
@@ -230,7 +253,14 @@ def detect_pipeline_type(steps: List[Dict]) -> Optional[str]:
     return None
 
 
-def generate_diagram(pipeline: str, output_fn: str):
+def generate_diagram(
+    pipeline: str,
+    output_fn: str,
+    vertical: bool = False,
+    fontname: str = "Helvetica",
+    header_color: str = "#cfe2ff",
+    docs_root: str = DOCS_ROOT,
+):
     """
     Parse a GDAL pipeline string and generate a workflow diagram.
     """
@@ -240,7 +270,15 @@ def generate_diagram(pipeline: str, output_fn: str):
     steps = parse_pipeline(pipeline)
 
     pipeline_type = detect_pipeline_type(steps)
-    diagram = workflow_diagram(steps, output_format, pipeline_type)
+    diagram = workflow_diagram(
+        steps,
+        output_format,
+        pipeline_type,
+        vertical=vertical,
+        fontname=fontname,
+        header_color=header_color,
+        docs_root=docs_root,
+    )
 
     output_stem = Path(output_fn).with_suffix("")
     diagram.render(output_stem, cleanup=True)
