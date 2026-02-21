@@ -8,7 +8,7 @@ from gdalgviz.parser import parse_pipeline
 VALID_FORMATS = ["svg", "png", "pdf", "jpg"]
 # URL to GDAL command documentation
 DOCS_ROOT = "https://gdal.org/en/latest/programs"
-COMMAND_TEMPLATE = "{docs_root}/gdal_{cmd_type}_{command}.html"
+COMMAND_TEMPLATE = "gdal_{cmd_type}_{command}.html"
 
 # general commands that don't have dedicated docs pages
 GDAL_OPERATORS = ("read", "write", "tee")
@@ -76,6 +76,16 @@ def _run_nested_pipeline(
     return current_parents
 
 
+def build_docs_url(docs_root: str, cmd_type: str, command: str) -> str:
+    """
+    Build a docs URL from a root and command
+    """
+    cmd_cleaned = command.replace("-", "_")
+    filename = COMMAND_TEMPLATE.format(cmd_type=cmd_type, command=cmd_cleaned)
+    root = docs_root.rstrip("/")
+    return f"{root}/{filename}"
+
+
 def add_step_node(
     g: Digraph,
     step_dict: Dict,
@@ -96,10 +106,7 @@ def add_step_node(
 
     # create the node
     if cmd_type and cmd.lower() not in GDAL_OPERATORS:
-        cmd_cleaned = cmd.replace("-", "_")
-        url = COMMAND_TEMPLATE.format(
-            docs_root=docs_root, cmd_type=cmd_type, command=cmd_cleaned
-        )
+        url = build_docs_url(docs_root, cmd_type, cmd)
         g.node(node_id, label=label, URL=url, tooltip=url, target="_blank")
     else:
         g.node(node_id, label=label)
