@@ -1,0 +1,70 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "input.tif"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "unit",
+        "type": "long_arg",
+        "value": "percent"
+      }
+    ],
+    "command": "slope"
+  },
+  {
+    "args": [
+      {
+        "flag": "m",
+        "type": "short_arg",
+        "value": "[0,15)=NO_DATA; [15,20)=1; [20,1000)=2; DEFAULT=NO_DATA"
+      }
+    ],
+    "command": "reclassify"
+  },
+  {
+    "args": [
+      {
+        "flag": "c",
+        "type": "short_arg",
+        "value": null
+      }
+    ],
+    "command": "polygonize"
+  },
+  {
+    "args": [
+      {
+        "flag": "format",
+        "type": "long_arg",
+        "value": "OpenFileGDB"
+      },
+      {
+        "flag": "update",
+        "type": "long_arg",
+        "value": null
+      },
+      {
+        "flag": "output-layer",
+        "type": "long_arg",
+        "value": "slope2026_percent.gdb"
+      }
+    ],
+    "command": "write"
+  }
+]

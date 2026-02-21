@@ -1,0 +1,83 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "n43.tif"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "color-map",
+        "type": "long_arg",
+        "value": "color_file.txt"
+      }
+    ],
+    "command": "color-map"
+  },
+  {
+    "args": [
+      {
+        "flag": "operator",
+        "type": "long_arg",
+        "value": "=hsv-value"
+      },
+      {
+        "flag": "overlay",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "blend",
+    "nested": {
+      "pipeline": [
+        {
+          "args": [
+            {
+              "type": "positional",
+              "value": "n43.tif"
+            }
+          ],
+          "command": "read"
+        },
+        {
+          "args": [
+            {
+              "flag": "z",
+              "type": "short_arg",
+              "value": "30"
+            }
+          ],
+          "command": "hillshade"
+        }
+      ],
+      "type": "nested"
+    }
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "out.tif"
+      },
+      {
+        "flag": "overwrite",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "write"
+  }
+]

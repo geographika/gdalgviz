@@ -1,0 +1,129 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "raster"
+      },
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "n43.tif"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "color-map",
+        "type": "long_arg",
+        "value": "color_file.txt"
+      }
+    ],
+    "command": "color-map"
+  },
+  {
+    "args": [],
+    "command": "tee",
+    "nested": {
+      "pipeline": {
+        "args": [
+          {
+            "type": "positional",
+            "value": "colored.tif"
+          },
+          {
+            "flag": "overwrite",
+            "type": "long_arg",
+            "value": null
+          }
+        ],
+        "command": "write"
+      },
+      "type": "nested"
+    }
+  },
+  {
+    "args": [
+      {
+        "flag": "operator",
+        "type": "long_arg",
+        "value": "=hsv-value"
+      },
+      {
+        "flag": "overlay",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "blend",
+    "nested": {
+      "pipeline": [
+        {
+          "args": [
+            {
+              "type": "positional",
+              "value": "n43.tif"
+            }
+          ],
+          "command": "read"
+        },
+        {
+          "args": [
+            {
+              "flag": "z",
+              "type": "short_arg",
+              "value": "30"
+            }
+          ],
+          "command": "hillshade"
+        },
+        {
+          "args": [],
+          "command": "tee",
+          "nested": {
+            "pipeline": {
+              "args": [
+                {
+                  "type": "positional",
+                  "value": "hillshade.tif"
+                },
+                {
+                  "flag": "overwrite",
+                  "type": "long_arg",
+                  "value": null
+                }
+              ],
+              "command": "write"
+            },
+            "type": "nested"
+          }
+        }
+      ],
+      "type": "nested"
+    }
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "colored-hillshade.tif"
+      },
+      {
+        "flag": "overwrite",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "write"
+  }
+]

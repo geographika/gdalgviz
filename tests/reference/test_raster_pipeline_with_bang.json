@@ -1,0 +1,44 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "raster"
+      },
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "in.gpkg"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "dst-crs",
+        "type": "long_arg",
+        "value": "=EPSG:32632"
+      }
+    ],
+    "command": "reproject"
+  },
+  {
+    "args": [
+      {
+        "flag": "fields",
+        "type": "long_arg",
+        "value": "fid,geom"
+      }
+    ],
+    "command": "select"
+  }
+]

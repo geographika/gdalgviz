@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ad0ba431-247f-4c65-a6a9-22ab69e66e99}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>gdalgviz\gdalgviz.py</StartupFile>
+    <StartupFile>tests\test_examples.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,26 +24,32 @@
   <ItemGroup>
     <Compile Include="gdalgviz\cli.py" />
     <Compile Include="gdalgviz\commands.py" />
+    <Compile Include="gdalgviz\main.py" />
+    <Compile Include="gdalgviz\parser.py" />
+    <Compile Include="gdalgviz\prettyprint.py" />
     <Compile Include="gdalgviz\__init__.py" />
     <Compile Include="tests\test_cli.py" />
-    <Compile Include="tests\test_parser.py" />
-    <Compile Include="gdalgviz\gdalgviz.py" />
+    <Compile Include="tests\test_examples.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".github\workflows\main.yml" />
     <Content Include=".gitignore" />
     <Content Include="dev-setup.ps1" />
+    <Content Include="examples\example.json" />
+    <Content Include="examples\gdalg.schema.json" />
     <Content Include="examples\gdalg_workflow.svg" />
+    <Content Include="examples\pipeline.svg" />
     <Content Include="examples\raster-overview.svg" />
+    <Content Include="examples\raster-overview.txt" />
+    <Content Include="examples\raster.json" />
     <Content Include="examples\raster.svg" />
+    <Content Include="examples\tee.json" />
     <Content Include="examples\tee.svg" />
+    <Content Include="gdalgviz\pipeline.lark" />
     <Content Include="local-notes.txt" />
     <Content Include="pyproject.toml" />
     <Content Include="README.md" />
-    <Content Include="tests\example.json" />
-    <Content Include="tests\raster-overview.txt" />
-    <Content Include="tests\raster.json" />
-    <Content Include="tests\tee.json" />
+    <Content Include="tests\output\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".github\" />
@@ -51,6 +57,8 @@
     <Folder Include="examples" />
     <Folder Include="gdalgviz" />
     <Folder Include="tests" />
+    <Folder Include="tests\reference\" />
+    <Folder Include="tests\output\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include=".venv\">
