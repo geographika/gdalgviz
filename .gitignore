@@ -28,3 +28,8 @@ Thumbs.db
 *.log
 
 local-notes.txt
+tests/output/*.json
+tests/output/*.svg
+
+gdalgviz.pyproj.user
+gdalgviz.slnx
