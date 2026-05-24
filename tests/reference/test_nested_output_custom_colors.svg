@@ -74,7 +74,7 @@
 <polygon fill="none" stroke="black" points="146.75,-185.5 146.75,-216 325.75,-216 325.75,-185.5 146.75,-185.5"/>
 <text text-anchor="start" x="215.62" y="-196.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">blend</text>
 <polygon fill="none" stroke="black" points="146.75,-155.75 146.75,-185.5 325.75,-185.5 325.75,-155.75 146.75,-155.75"/>
-<text text-anchor="start" x="153.75" y="-165.2" font-family="Courier,monospace" font-size="14.00">&#45;&#45;operator=hsv&#45;value</text>
+<text text-anchor="start" x="153.75" y="-165.2" font-family="Courier,monospace" font-size="14.00">&#45;&#45;operator hsv&#45;value</text>
 <polygon fill="none" stroke="black" points="146.75,-126 146.75,-155.75 325.75,-155.75 325.75,-126 146.75,-126"/>
 <text text-anchor="start" x="153.75" y="-135.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;overlay</text>
 </a>

@@ -1,0 +1,112 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "vector"
+      },
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "natural_earth_vector.gpkg"
+      },
+      {
+        "flag": "layer",
+        "type": "long_arg",
+        "value": "ne_10m_rivers_europe"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "output-crs",
+        "type": "long_arg",
+        "value": "EPSG:3844"
+      }
+    ],
+    "command": "reproject"
+  },
+  {
+    "args": [
+      {
+        "flag": "like",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "clip",
+    "nested": {
+      "pipeline": [
+        {
+          "args": [
+            {
+              "type": "positional",
+              "value": "natural_earth_vector.gpkg"
+            },
+            {
+              "flag": "layer",
+              "type": "long_arg",
+              "value": "ne_50m_admin_0_countries"
+            }
+          ],
+          "command": "read"
+        },
+        {
+          "args": [
+            {
+              "flag": "where",
+              "type": "long_arg",
+              "value": "ADMIN='Romania'"
+            }
+          ],
+          "command": "filter"
+        },
+        {
+          "args": [
+            {
+              "flag": "output-crs",
+              "type": "long_arg",
+              "value": "EPSG:3844"
+            }
+          ],
+          "command": "reproject"
+        }
+      ],
+      "type": "nested"
+    }
+  },
+  {
+    "args": [
+      {
+        "flag": "geometry-type",
+        "type": "long_arg",
+        "value": "MULTILINESTRING"
+      }
+    ],
+    "command": "set-geom-type"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "romania-rivers.gpkg"
+      },
+      {
+        "flag": "overwrite",
+        "type": "long_arg",
+        "value": null
+      }
+    ],
+    "command": "write"
+  }
+]

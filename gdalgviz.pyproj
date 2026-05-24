@@ -63,12 +63,12 @@
   <ItemGroup>
     <Interpreter Include=".venv\">
       <Id>.venv</Id>
-      <Description>.venv (Python 3.12 (64-bit))</Description>
+      <Version>3.14</Version>
+      <Description>.venv (Python 3.14 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <Version>3.12</Version>
-      <Architecture>X64</Architecture>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
     </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

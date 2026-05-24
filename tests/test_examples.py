@@ -70,6 +70,22 @@ def test_vector_pipeline():
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline.svg")
 
 
+def test_vector_pipeline_quotes():
+    output_path = OUTPUT_DIR / "test_vector_pipeline_quotes.svg"
+    pipeline = """
+gdal vector pipeline
+    ! read natural_earth_vector.gpkg --layer "ne_10m_rivers_europe"
+    ! reproject --output-crs="EPSG:3844"
+    ! clip --like [ read natural_earth_vector.gpkg --layer "ne_50m_admin_0_countries" ! filter --where "ADMIN='Romania'" ! reproject --output-crs="EPSG:3844" ]
+    ! set-geom-type --geometry-type="MULTILINESTRING"
+    ! write romania-rivers.gpkg --overwrite
+"""
+    steps = parse_pipeline(pipeline)
+    assert_pipeline_equal(steps, "test_vector_pipeline_quotes")
+    generate_diagram(pipeline, str(output_path))
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline_quotes.svg")
+
+
 def test_vector_pipeline_with_bang():
     output_path = OUTPUT_DIR / "test_vector_pipeline_with_bang.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
@@ -286,6 +302,7 @@ def test_all_options():
 
 if __name__ == "__main__":
     test_vector_pipeline()
+    test_vector_pipeline_quotes()
     test_vector_pipeline_with_bang()
     test_vector_pipeline_without_bang()
     test_vector_pipeline_uppercase_gdal()

@@ -48,7 +48,7 @@ class PipelineTransformer(Transformer):
         return {"type": "positional", "value": items[0]}
 
     def value(self, items):
-        return items[0]  # already processed by QUOTED_STRING or BARE_VALUE
+        return str(items[0])  # already processed by QUOTED_STRING or BARE_VALUE
 
     def nested(self, items):
         return {"type": "nested", "pipeline": items[0]}

@@ -57,7 +57,7 @@
       {
         "flag": "operator",
         "type": "long_arg",
-        "value": "=hsv-value"
+        "value": "hsv-value"
       },
       {
         "flag": "overlay",
