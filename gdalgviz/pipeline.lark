@@ -28,8 +28,9 @@ LONG_FLAG:     /--[a-zA-Z][a-zA-Z0-9\-]*/
 CMD_NAME:      /[a-zA-Z][a-zA-Z0-9\-]*/
 
 // Bare values: anything not a flag, bracket, !, whitespace, or quote
-// Explicitly allows dots, digits-first, equals signs (for KEY=VALUE pairs)
-BARE_VALUE.2:  /(?!--?)(?![\[\]!\s"'])[^\[\]!\s"']+/
+// Allows dots, digits-first, and equals signs mid-value (for KEY=VALUE pairs)
+// Cannot start with '=' to allow long_arg rule to match --flag=value correctly
+BARE_VALUE.2: /(?!--?)(?![=\[\]!\s"'])[^\[\]!\s"']+/
 
 QUOTED_STRING.3: /"(?:[^"\\]|\\.)*"/ | /'(?:[^'\\]|\\.)*'/
 

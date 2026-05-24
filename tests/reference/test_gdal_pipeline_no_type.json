@@ -22,7 +22,7 @@
       {
         "flag": "dst-crs",
         "type": "long_arg",
-        "value": "=EPSG:32632"
+        "value": "EPSG:32632"
       }
     ],
     "command": "reproject"

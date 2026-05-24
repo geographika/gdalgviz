@@ -26,7 +26,7 @@
 <polygon fill="none" stroke="black" points="107.75,-29.75 107.75,-60.25 286.75,-60.25 286.75,-29.75 107.75,-29.75"/>
 <text text-anchor="start" x="160.12" y="-40.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00">reproject</text>
 <polygon fill="none" stroke="black" points="107.75,0 107.75,-29.75 286.75,-29.75 286.75,0 107.75,0"/>
-<text text-anchor="start" x="114.75" y="-9.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;dst&#45;crs=EPSG:32632</text>
+<text text-anchor="start" x="114.75" y="-9.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;dst&#45;crs EPSG:32632</text>
 </a>
 </g>
 </g>
