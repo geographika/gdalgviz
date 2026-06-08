@@ -12,11 +12,14 @@
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
+<g id="a_node1"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_read.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_read.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="0,-61 0,-91.5 59,-91.5 59,-61 0,-61"/>
 <polygon fill="none" stroke="black" points="0,-61 0,-91.5 59,-91.5 59,-61 0,-61"/>
 <text text-anchor="start" x="13.75" y="-72.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">read</text>
 <polygon fill="none" stroke="black" points="0,-30.5 0,-61 59,-61 59,-30.5 0,-30.5"/>
 <text text-anchor="start" x="7" y="-40.7" font-family="Helvetica,sans-Serif" font-size="14.00">input.tif</text>
+</a>
+</g>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
@@ -75,6 +78,7 @@
 <!-- 4 -->
 <g id="node5" class="node">
 <title>4</title>
+<g id="a_node5"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_write.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_write.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="842,-91.5 842,-122 1095.25,-122 1095.25,-91.5 842,-91.5"/>
 <polygon fill="none" stroke="black" points="842,-91.5 842,-122 1095.25,-122 1095.25,-91.5 842,-91.5"/>
 <text text-anchor="start" x="951.75" y="-102.7" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">write</text>
@@ -84,6 +88,8 @@
 <text text-anchor="start" x="849" y="-40.7" font-family="Helvetica,sans-Serif" font-size="14.00">&#45;&#45;update</text>
 <polygon fill="none" stroke="black" points="842,0 842,-30.5 1095.25,-30.5 1095.25,0 842,0"/>
 <text text-anchor="start" x="849" y="-10.2" font-family="Helvetica,sans-Serif" font-size="14.00">&#45;&#45;output&#45;layer slope2026_percent.gdb</text>
+</a>
+</g>
 </g>
 <!-- 3&#45;&gt;4 -->
 <g id="edge4" class="edge">

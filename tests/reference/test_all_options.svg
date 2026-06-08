@@ -12,11 +12,14 @@
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
+<g id="a_node1"><a xlink:href="https://my-mirror.example.com/gdal/programs/gdal_raster_read.html" xlink:title="https://my&#45;mirror.example.com/gdal/programs/gdal_raster_read.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="33,-222.25 33,-252.75 96.5,-252.75 96.5,-222.25 33,-222.25"/>
 <polygon fill="none" stroke="black" points="33,-222.25 33,-252.75 96.5,-252.75 96.5,-222.25 33,-222.25"/>
 <text text-anchor="start" x="48.25" y="-233.45" font-family="Courier,monospace" font-weight="bold" font-size="14.00">read</text>
 <polygon fill="none" stroke="black" points="33,-192.5 33,-222.25 96.5,-222.25 96.5,-192.5 33,-192.5"/>
 <text text-anchor="start" x="40" y="-201.95" font-family="Courier,monospace" font-size="14.00">in.tif</text>
+</a>
+</g>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
@@ -39,11 +42,14 @@
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
+<g id="a_node3"><a xlink:href="https://my-mirror.example.com/gdal/programs/gdal_raster_write.html" xlink:title="https://my&#45;mirror.example.com/gdal/programs/gdal_raster_write.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="28.88,-29.75 28.88,-60.25 100.62,-60.25 100.62,-29.75 28.88,-29.75"/>
 <polygon fill="none" stroke="black" points="28.88,-29.75 28.88,-60.25 100.62,-60.25 100.62,-29.75 28.88,-29.75"/>
 <text text-anchor="start" x="44.12" y="-40.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00">write</text>
 <polygon fill="none" stroke="black" points="28.88,0 28.88,-29.75 100.62,-29.75 100.62,0 28.88,0"/>
 <text text-anchor="start" x="35.88" y="-9.45" font-family="Courier,monospace" font-size="14.00">out.tif</text>
+</a>
+</g>
 </g>
 <!-- 1&#45;&gt;2 -->
 <g id="edge2" class="edge">

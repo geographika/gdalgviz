@@ -12,6 +12,7 @@
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
+<g id="a_node1"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_read.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_read.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="274.25,-155 274.25,-185.5 479.5,-185.5 479.5,-155 274.25,-155"/>
 <polygon fill="none" stroke="black" points="274.25,-155 274.25,-185.5 479.5,-185.5 479.5,-155 274.25,-155"/>
 <text text-anchor="start" x="361.12" y="-166.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">read</text>
@@ -19,11 +20,13 @@
 <text text-anchor="start" x="281.25" y="-134.7" font-family="Helvetica,sans-Serif" font-size="14.00">natural_earth_vector.gpkg</text>
 <polygon fill="none" stroke="black" points="274.25,-94 274.25,-124.5 479.5,-124.5 479.5,-94 274.25,-94"/>
 <text text-anchor="start" x="281.25" y="-104.2" font-family="Helvetica,sans-Serif" font-size="14.00">&#45;&#45;layer ne_10m_rivers_europe</text>
+</a>
+</g>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
 <title>1</title>
-<g id="a_node2"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_reproject.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_reproject.html" target="_blank">
+<g id="a_node2"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_reproject.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_reproject.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="515.5,-135.75 515.5,-166.25 682.5,-166.25 682.5,-135.75 515.5,-135.75"/>
 <polygon fill="none" stroke="black" points="515.5,-135.75 515.5,-166.25 682.5,-166.25 682.5,-135.75 515.5,-135.75"/>
 <text text-anchor="start" x="567.5" y="-146.95" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">reproject</text>
@@ -41,7 +44,7 @@
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
-<g id="a_node3"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_clip.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_clip.html" target="_blank">
+<g id="a_node3"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_clip.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_clip.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="718.5,-91.75 718.5,-122.25 762.5,-122.25 762.5,-91.75 718.5,-91.75"/>
 <polygon fill="none" stroke="black" points="718.5,-91.75 718.5,-122.25 762.5,-122.25 762.5,-91.75 718.5,-91.75"/>
 <text text-anchor="start" x="728.12" y="-102.95" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">clip</text>
@@ -77,6 +80,7 @@
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
+<g id="a_node4"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_read.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_read.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="0,-61 0,-91.5 238.25,-91.5 238.25,-61 0,-61"/>
 <polygon fill="none" stroke="black" points="0,-61 0,-91.5 238.25,-91.5 238.25,-61 0,-61"/>
 <text text-anchor="start" x="103.38" y="-72.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">read</text>
@@ -84,6 +88,8 @@
 <text text-anchor="start" x="7" y="-40.7" font-family="Helvetica,sans-Serif" font-size="14.00">natural_earth_vector.gpkg</text>
 <polygon fill="none" stroke="black" points="0,0 0,-30.5 238.25,-30.5 238.25,0 0,0"/>
 <text text-anchor="start" x="7" y="-10.2" font-family="Helvetica,sans-Serif" font-size="14.00">&#45;&#45;layer ne_50m_admin_0_countries</text>
+</a>
+</g>
 </g>
 <!-- 4 -->
 <g id="node5" class="node">
@@ -106,7 +112,7 @@
 <!-- 5 -->
 <g id="node6" class="node">
 <title>5</title>
-<g id="a_node6"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_reproject.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_reproject.html" target="_blank">
+<g id="a_node6"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_reproject.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_reproject.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="515.5,-52.75 515.5,-83.25 682.5,-83.25 682.5,-52.75 515.5,-52.75"/>
 <polygon fill="none" stroke="black" points="515.5,-52.75 515.5,-83.25 682.5,-83.25 682.5,-52.75 515.5,-52.75"/>
 <text text-anchor="start" x="567.5" y="-63.95" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">reproject</text>
@@ -130,6 +136,7 @@
 <!-- 7 -->
 <g id="node8" class="node">
 <title>7</title>
+<g id="a_node8"><a xlink:href="https://gdal.org/en/latest/programs/gdal_vector_write.html" xlink:title="https://gdal.org/en/latest/programs/gdal_vector_write.html" target="_blank">
 <polygon fill="#cfe2ff" stroke="none" points="1082.5,-107 1082.5,-137.5 1221,-137.5 1221,-107 1082.5,-107"/>
 <polygon fill="none" stroke="black" points="1082.5,-107 1082.5,-137.5 1221,-137.5 1221,-107 1082.5,-107"/>
 <text text-anchor="start" x="1134.88" y="-118.2" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00">write</text>
@@ -137,6 +144,8 @@
 <text text-anchor="start" x="1089.5" y="-86.7" font-family="Helvetica,sans-Serif" font-size="14.00">romania&#45;rivers.gpkg</text>
 <polygon fill="none" stroke="black" points="1082.5,-46 1082.5,-76.5 1221,-76.5 1221,-46 1082.5,-46"/>
 <text text-anchor="start" x="1089.5" y="-56.2" font-family="Helvetica,sans-Serif" font-size="14.00">&#45;&#45;overwrite</text>
+</a>
+</g>
 </g>
 <!-- 6&#45;&gt;7 -->
 <g id="edge7" class="edge">
