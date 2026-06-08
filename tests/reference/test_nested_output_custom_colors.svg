@@ -12,11 +12,14 @@
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
+<g id="a_node1"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_read.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_read.html" target="_blank">
 <polygon fill="#ffdd99" stroke="none" points="78.38,-444.5 78.38,-475 150.12,-475 150.12,-444.5 78.38,-444.5"/>
 <polygon fill="none" stroke="black" points="78.38,-444.5 78.38,-475 150.12,-475 150.12,-444.5 78.38,-444.5"/>
 <text text-anchor="start" x="97.75" y="-455.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">read</text>
 <polygon fill="none" stroke="black" points="78.38,-414.75 78.38,-444.5 150.12,-444.5 150.12,-414.75 78.38,-414.75"/>
 <text text-anchor="start" x="85.38" y="-424.2" font-family="Courier,monospace" font-size="14.00">n43.tif</text>
+</a>
+</g>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
@@ -52,6 +55,7 @@
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
+<g id="a_node4"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_write.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_write.html" target="_blank">
 <polygon fill="#ffdd99" stroke="none" points="23.88,-185.5 23.88,-216 128.62,-216 128.62,-185.5 23.88,-185.5"/>
 <polygon fill="none" stroke="black" points="23.88,-185.5 23.88,-216 128.62,-216 128.62,-185.5 23.88,-185.5"/>
 <text text-anchor="start" x="55.62" y="-196.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">write</text>
@@ -59,6 +63,8 @@
 <text text-anchor="start" x="30.88" y="-165.2" font-family="Courier,monospace" font-size="14.00">colored.tif</text>
 <polygon fill="none" stroke="black" points="23.88,-126 23.88,-155.75 128.62,-155.75 128.62,-126 23.88,-126"/>
 <text text-anchor="start" x="30.88" y="-135.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;overwrite</text>
+</a>
+</g>
 </g>
 <!-- 2&#45;&gt;3 -->
 <g id="edge3" class="edge">
@@ -89,6 +95,7 @@
 <!-- 9 -->
 <g id="node10" class="node">
 <title>9</title>
+<g id="a_node10"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_write.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_write.html" target="_blank">
 <polygon fill="#ffdd99" stroke="none" points="142.62,-59.5 142.62,-90 329.88,-90 329.88,-59.5 142.62,-59.5"/>
 <polygon fill="none" stroke="black" points="142.62,-59.5 142.62,-90 329.88,-90 329.88,-59.5 142.62,-59.5"/>
 <text text-anchor="start" x="215.62" y="-70.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">write</text>
@@ -96,6 +103,8 @@
 <text text-anchor="start" x="149.62" y="-39.2" font-family="Courier,monospace" font-size="14.00">colored&#45;hillshade.tif</text>
 <polygon fill="none" stroke="black" points="142.62,0 142.62,-29.75 329.88,-29.75 329.88,0 142.62,0"/>
 <text text-anchor="start" x="149.62" y="-9.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;overwrite</text>
+</a>
+</g>
 </g>
 <!-- 4&#45;&gt;9 -->
 <g id="edge9" class="edge">
@@ -106,11 +115,14 @@
 <!-- 5 -->
 <g id="node6" class="node">
 <title>5</title>
+<g id="a_node6"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_read.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_read.html" target="_blank">
 <polygon fill="#ffdd99" stroke="none" points="330.38,-444.5 330.38,-475 402.12,-475 402.12,-444.5 330.38,-444.5"/>
 <polygon fill="none" stroke="black" points="330.38,-444.5 330.38,-475 402.12,-475 402.12,-444.5 330.38,-444.5"/>
 <text text-anchor="start" x="349.75" y="-455.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">read</text>
 <polygon fill="none" stroke="black" points="330.38,-414.75 330.38,-444.5 402.12,-444.5 402.12,-414.75 330.38,-414.75"/>
 <text text-anchor="start" x="337.38" y="-424.2" font-family="Courier,monospace" font-size="14.00">n43.tif</text>
+</a>
+</g>
 </g>
 <!-- 6 -->
 <g id="node7" class="node">
@@ -152,6 +164,7 @@
 <!-- 8 -->
 <g id="node9" class="node">
 <title>8</title>
+<g id="a_node9"><a xlink:href="https://gdal.org/en/latest/programs/gdal_raster_write.html" xlink:title="https://gdal.org/en/latest/programs/gdal_raster_write.html" target="_blank">
 <polygon fill="#ffdd99" stroke="none" points="343.62,-185.5 343.62,-216 464.88,-216 464.88,-185.5 343.62,-185.5"/>
 <polygon fill="none" stroke="black" points="343.62,-185.5 343.62,-216 464.88,-216 464.88,-185.5 343.62,-185.5"/>
 <text text-anchor="start" x="383.62" y="-196.7" font-family="Courier,monospace" font-weight="bold" font-size="14.00">write</text>
@@ -159,6 +172,8 @@
 <text text-anchor="start" x="350.62" y="-165.2" font-family="Courier,monospace" font-size="14.00">hillshade.tif</text>
 <polygon fill="none" stroke="black" points="343.62,-126 343.62,-155.75 464.88,-155.75 464.88,-126 343.62,-126"/>
 <text text-anchor="start" x="350.62" y="-135.45" font-family="Courier,monospace" font-size="14.00">&#45;&#45;overwrite</text>
+</a>
+</g>
 </g>
 <!-- 7&#45;&gt;8 -->
 <g id="edge7" class="edge">

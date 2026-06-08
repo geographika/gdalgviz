@@ -1,4 +1,4 @@
-from gdalgviz.main import generate_diagram
+from gdalgviz.main import generate_diagram, detect_pipeline_type
 from gdalgviz.parser import parse_pipeline
 from pathlib import Path
 import re
@@ -65,6 +65,7 @@ def test_vector_pipeline():
     output_path = OUTPUT_DIR / "test_vector_pipeline.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vector_pipeline")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline.svg")
@@ -81,6 +82,7 @@ gdal vector pipeline
     ! write romania-rivers.gpkg --overwrite
 """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vector_pipeline_quotes")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline_quotes.svg")
@@ -90,6 +92,7 @@ def test_vector_pipeline_with_bang():
     output_path = OUTPUT_DIR / "test_vector_pipeline_with_bang.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vector_pipeline_with_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vector_pipeline_with_bang.svg")
@@ -99,6 +102,7 @@ def test_vector_pipeline_without_bang():
     output_path = OUTPUT_DIR / "test_vector_pipeline_without_bang.svg"
     pipeline = "gdal vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vector_pipeline_without_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
@@ -110,6 +114,7 @@ def test_vector_pipeline_uppercase_gdal():
     output_path = OUTPUT_DIR / "test_vector_pipeline_uppercase_gdal.svg"
     pipeline = "GDAL vector pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vector_pipeline_uppercase_gdal")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
@@ -121,6 +126,7 @@ def test_gdal_pipeline_no_type():
     output_path = OUTPUT_DIR / "test_gdal_pipeline_no_type.svg"
     pipeline = "GDAL pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) is None
     assert_pipeline_equal(steps, "test_gdal_pipeline_no_type")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_gdal_pipeline_no_type.svg")
@@ -130,6 +136,7 @@ def test_raster_pipeline_without_bang():
     output_path = OUTPUT_DIR / "test_raster_pipeline_without_bang.svg"
     pipeline = "gdal raster pipeline read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_raster_pipeline_without_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(
@@ -141,6 +148,7 @@ def test_raster_pipeline_with_bang():
     output_path = OUTPUT_DIR / "test_raster_pipeline_with_bang.svg"
     pipeline = "gdal raster pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_raster_pipeline_with_bang")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_raster_pipeline_with_bang.svg")
@@ -155,6 +163,7 @@ def test_nested_input():
                 write out.tif --overwrite
         """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) is None
     assert_pipeline_equal(steps, "test_nested_input")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_input.svg")
@@ -179,6 +188,7 @@ def test_nested_output():
             ! write colored-hillshade.tif --overwrite
         """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_nested_output")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_output.svg")
@@ -193,6 +203,7 @@ def test_expressions():
     ! polygonize -c ! write --format OpenFileGDB --update --output-layer slope2026_percent.gdb
     """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) is None
     assert_pipeline_equal(steps, "test_expressions")
     generate_diagram(pipeline, str(output_path))
     assert_svg_equal(output_path, REFERENCE_DIR / "test_expressions.svg")
@@ -202,6 +213,7 @@ def test_vertical_layout():
     output_path = OUTPUT_DIR / "test_vertical_layout.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_vertical_layout")
     generate_diagram(pipeline, str(output_path), vertical=True)
     assert_svg_equal(output_path, REFERENCE_DIR / "test_vertical_layout.svg")
@@ -211,6 +223,7 @@ def test_custom_font():
     output_path = OUTPUT_DIR / "test_custom_font.svg"
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_custom_font")
     generate_diagram(pipeline, str(output_path), fontname="Courier")
     assert_svg_equal(output_path, REFERENCE_DIR / "test_custom_font.svg")
@@ -221,6 +234,7 @@ def test_custom_docs_root():
     pipeline = "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom"
     custom_root = "https://my-mirror.example.com/gdal/programs"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "vector"
     assert_pipeline_equal(steps, "test_custom_docs_root")
     generate_diagram(pipeline, str(output_path), docs_root=custom_root)
     assert_svg_equal(output_path, REFERENCE_DIR / "test_custom_docs_root.svg")
@@ -245,6 +259,7 @@ def test_nested_output_vertical():
             ! write colored-hillshade.tif --overwrite
         """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_nested_output_vertical")
     generate_diagram(pipeline, str(output_path), vertical=True)
     assert_svg_equal(output_path, REFERENCE_DIR / "test_nested_output_vertical.svg")
@@ -269,6 +284,7 @@ def test_nested_output_custom_colors():
             ! write colored-hillshade.tif --overwrite
         """
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_nested_output_custom_colors")
     generate_diagram(
         pipeline,
@@ -289,6 +305,7 @@ def test_all_options():
     )
     custom_root = "https://my-mirror.example.com/gdal/programs"
     steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
     assert_pipeline_equal(steps, "test_all_options")
     generate_diagram(
         pipeline,

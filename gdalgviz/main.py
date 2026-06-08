@@ -11,7 +11,7 @@ DOCS_ROOT = "https://gdal.org/en/latest/programs"
 COMMAND_TEMPLATE = "gdal_{cmd_type}_{command}.html"
 
 # general commands that don't have dedicated docs pages
-GDAL_OPERATORS = ("read", "write", "tee")
+GDAL_OPERATORS = "tee"
 
 
 def _is_pipeline_header(step: Dict) -> bool:
@@ -253,10 +253,12 @@ def detect_pipeline_type(steps: List[Dict]) -> Optional[str]:
     """
     if not steps:
         return None
-    first_cmd = steps[0].get("command", "").lower()
-    for word in first_cmd.split():
-        if word in ("raster", "vector"):
-            return word
+    for arg in steps[0].get("args", []):
+        if arg.get("type") == "positional" and arg.get("value", "").lower() in (
+            "raster",
+            "vector",
+        ):
+            return arg["value"].lower()
     return None
 
 
