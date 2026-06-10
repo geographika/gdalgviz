@@ -212,6 +212,8 @@ def workflow_diagram(
     fontname: str = "Helvetica",
     header_color: str = "#cfe2ff",
     docs_root: str = DOCS_ROOT,
+    graph_attr: Optional[Dict] = None,
+    node_attr: Optional[Dict] = None,
 ) -> Digraph:
     """
     Build a Graphviz diagram from a structured pipeline dict list
@@ -222,12 +224,17 @@ def workflow_diagram(
         display_steps = steps[1:]
 
     rankdir = "TB" if vertical else "LR"
+
+    # allow backwards compatibility with named parameters such as fontname
+    _graph_attr = {"rankdir": rankdir, **(graph_attr or {})}
+    _node_attr = {"shape": "plain", "fontname": fontname, **(node_attr or {})}
+
     g = Digraph(
         name=title,
         format=output_format,
-        graph_attr={"rankdir": rankdir},
+        graph_attr=_graph_attr,
+        node_attr=_node_attr,
     )
-    g.attr("node", shape="plain", fontname=fontname)
 
     node_counter = [0]
     last_ids: List[str] = []
@@ -269,6 +276,8 @@ def generate_diagram(
     fontname: str = "Helvetica",
     header_color: str = "#cfe2ff",
     docs_root: str = DOCS_ROOT,
+    graph_attr: Optional[Dict] = None,
+    node_attr: Optional[Dict] = None,
 ):
     """
     Parse a GDAL pipeline string and generate a workflow diagram.
@@ -287,6 +296,8 @@ def generate_diagram(
         fontname=fontname,
         header_color=header_color,
         docs_root=docs_root,
+        graph_attr=graph_attr,
+        node_attr=node_attr,
     )
 
     output_stem = Path(output_fn).with_suffix("")

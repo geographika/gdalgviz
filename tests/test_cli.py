@@ -20,6 +20,8 @@ def test_main_with_pipeline_string(tmp_path):
         fontname="Helvetica",
         header_color="#cfe2ff",
         docs_root=DOCS_ROOT,
+        graph_attr={},
+        node_attr={},
     )
 
 
@@ -39,6 +41,8 @@ def test_main_with_file(tmp_path):
         fontname="Helvetica",
         header_color="#cfe2ff",
         docs_root=DOCS_ROOT,
+        graph_attr={},
+        node_attr={},
     )
 
 
@@ -58,7 +62,14 @@ def test_main_vertical_flag(tmp_path):
     with patch("gdalgviz.cli.generate_diagram") as mock_generate:
         mock_generate.return_value = 0
         exit_code = cli.main(
-            ["--pipeline", PIPELINE_STR, "--vertical", str(output_file)]
+            [
+                "--pipeline",
+                PIPELINE_STR,
+                "--vertical",
+                "--graph-attr",
+                "bgcolor=transparent",
+                str(output_file),
+            ]
         )
     assert exit_code == 0
     mock_generate.assert_called_once_with(
@@ -68,6 +79,8 @@ def test_main_vertical_flag(tmp_path):
         fontname="Helvetica",
         header_color="#cfe2ff",
         docs_root=DOCS_ROOT,
+        graph_attr={"bgcolor": "transparent"},
+        node_attr={},
     )
 
 
@@ -77,7 +90,15 @@ def test_main_custom_font(tmp_path):
     with patch("gdalgviz.cli.generate_diagram") as mock_generate:
         mock_generate.return_value = 0
         exit_code = cli.main(
-            ["--pipeline", PIPELINE_STR, "--font", "Arial", str(output_file)]
+            [
+                "--pipeline",
+                PIPELINE_STR,
+                "--font",
+                "Arial",
+                "--node-attr",
+                "fontsize=12",
+                str(output_file),
+            ]
         )
     assert exit_code == 0
     mock_generate.assert_called_once_with(
@@ -87,6 +108,8 @@ def test_main_custom_font(tmp_path):
         fontname="Arial",
         header_color="#cfe2ff",
         docs_root=DOCS_ROOT,
+        graph_attr={},
+        node_attr={"fontsize": "12"},
     )
 
 
@@ -107,6 +130,8 @@ def test_main_custom_docs_root(tmp_path):
         fontname="Helvetica",
         header_color="#cfe2ff",
         docs_root=custom_root,
+        graph_attr={},
+        node_attr={},
     )
 
 
@@ -136,6 +161,8 @@ def test_main_all_options(tmp_path):
         fontname="Courier",
         header_color="#cfe2ff",
         docs_root=custom_root,
+        graph_attr={},
+        node_attr={},
     )
 
 
@@ -161,6 +188,8 @@ def test_main_custom_header_color(tmp_path):
         fontname="Helvetica",
         docs_root=DOCS_ROOT,
         header_color="#ff0000",
+        graph_attr={},
+        node_attr={},
     )
 
 
@@ -196,4 +225,53 @@ def test_main_default_header_color(tmp_path):
         fontname="Helvetica",
         docs_root=DOCS_ROOT,
         header_color="#cfe2ff",
+        graph_attr={},
+        node_attr={},
     )
+
+
+def test_main_graph_and_node_attr(tmp_path):
+    """Test that --graph-attr and --node-attr are passed through to generate_diagram."""
+    output_file = tmp_path / "output.svg"
+    with patch("gdalgviz.cli.generate_diagram") as mock_generate:
+        mock_generate.return_value = 0
+        exit_code = cli.main(
+            [
+                "--pipeline",
+                PIPELINE_STR,
+                "--graph-attr",
+                "bgcolor=transparent,pad=0.8",
+                "--node-attr",
+                "fontsize=12,fontname=Courier",
+                str(output_file),
+            ]
+        )
+    assert exit_code == 0
+    mock_generate.assert_called_once_with(
+        pipeline=PIPELINE_STR,
+        output_fn=str(output_file),
+        vertical=False,
+        fontname="Helvetica",
+        header_color="#cfe2ff",
+        docs_root=DOCS_ROOT,
+        graph_attr={"bgcolor": "transparent", "pad": "0.8"},
+        node_attr={"fontsize": "12", "fontname": "Courier"},
+    )
+
+
+def test_main_invalid_graph_attr(tmp_path):
+    """Test that a malformed KEY=VALUE raises an error."""
+    output_file = tmp_path / "output.svg"
+    with patch("gdalgviz.cli.generate_diagram") as mock_generate:
+        with pytest.raises(SystemExit) as exc_info:
+            cli.main(
+                [
+                    "--pipeline",
+                    PIPELINE_STR,
+                    "--graph-attr",
+                    "notakeyvalue",
+                    str(output_file),
+                ]
+            )
+    assert exc_info.value.code != 0
+    mock_generate.assert_not_called()
