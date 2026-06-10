@@ -17,6 +17,21 @@ def validate_color(color: str) -> str:
     return color
 
 
+def parse_kv(value: str) -> dict:
+    result = {}
+    for pair in value.split(","):
+        pair = pair.strip()
+        if not pair:
+            continue
+        if "=" not in pair:
+            raise argparse.ArgumentTypeError(
+                f"Invalid attribute '{pair}', expected KEY=VALUE"
+            )
+        k, v = pair.split("=", 1)
+        result[k.strip()] = v.strip()
+    return result
+
+
 def parse_file(fn: str) -> str:
     """
     Open a file and return its pipeline command.
@@ -92,12 +107,31 @@ def main(argv: Optional[list[str]] = None) -> int:
         help=("Root URL for GDAL documentation links" f"(default: {DOCS_ROOT})"),
     )
 
+    parser.add_argument(
+        "--graph-attr",
+        default="",
+        metavar="KEY=VALUE,...",
+        help="Graphviz graph attributes e.g. --graph-attr bgcolor=transparent,pad=0.8",
+    )
+    parser.add_argument(
+        "--node-attr",
+        default="",
+        metavar="KEY=VALUE,...",
+        help="Graphviz node attributes e.g. --node-attr fontsize=12,fontname=Courier",
+    )
+
     args = parser.parse_args(argv)
 
     # validate that input_path exists if not using --pipeline
     if not args.pipeline and not Path(args.input_path).exists():
         print(f"Error: File '{args.input_path}' does not exist.", file=sys.stderr)
         return 1
+
+    try:
+        graph_attr = parse_kv(args.graph_attr)
+        node_attr = parse_kv(args.node_attr)
+    except argparse.ArgumentTypeError as e:
+        parser.error(str(e))
 
     # get the pipeline text
     if args.pipeline:
@@ -116,6 +150,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         fontname=args.font,
         header_color=args.header_color,
         docs_root=args.docs_root or DOCS_ROOT,
+        graph_attr=graph_attr,
+        node_attr=node_attr,
     )
 
     return exit_code

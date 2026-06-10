@@ -21,7 +21,7 @@ pipx install gdalgviz
 # for Docker images
 # export PATH="$HOME/.local/bin:$PATH"
 gdalgviz --version
-gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" examples/pipeline.svg
 ```
 
 On Windows (assuming pip and Python are on the system PATH):
@@ -32,7 +32,7 @@ $env:PATH = "$GVIZ_PATH;$env:PATH"
 dot -V
 pip install gdalgviz
 gdalgviz --version
-gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" examples/pipeline.svg
 ```
 
 ## Usage
@@ -56,6 +56,10 @@ options:
   --version             show program's version number and exit
   --docs-root DOCS_ROOT
                         Root URL for GDAL documentation links(default: https://gdal.org/en/latest/programs)
+  --graph-attr KEY=VALUE,...
+                        Graphviz graph attributes e.g. --graph-attr bgcolor=transparent,pad=0.8
+  --node-attr KEY=VALUE,...
+                        Graphviz node attributes e.g. --node-attr fontsize=12,fontname=Courier
 ```
 
 ## Examples
@@ -71,7 +75,7 @@ gdalgviz ./examples/tee.json ./examples/tee.svg
 Passing a pipeline as a string:
 
 ```bash
-gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" pipeline.svg
+gdalgviz --pipeline "gdal vector pipeline ! read in.gpkg ! reproject --dst-crs=EPSG:32632 ! select --fields fid,geom" examples/pipeline.svg
 ```
 
 ![Workflow Diagram](./examples/pipeline.svg)
@@ -84,18 +88,64 @@ gdalgviz ./examples/tee.json ./examples/tee-custom.svg --vertical --font "Courie
 
 ![Custom Workflow Diagram](./examples/tee-custom.svg)
 
+Using custom graph and node attributes for a transparent background with custom font sizing:
+
+```bash
+gdalgviz ./examples/tee.json ./examples/tee-transparent.svg --graph-attr "bgcolor=transparent,pad=0.5" --node-attr "fontsize=12,fontname=Courier New"
+```
+
+![Custom Workflow Diagram](./examples/tee-transparent.svg)
+
+Using all options together with a complex nested pipeline:
+
+```bash
+gdalgviz \
+  --pipeline "gdal raster pipeline \
+    ! read n43.tif \
+    ! color-map --color-map color_file.txt \
+    ! tee [ write colored.tif --overwrite ] \
+    ! blend --operator=hsv-value --overlay [ read n43.tif ! hillshade -z 30 ] \
+    ! write colored-hillshade.tif --overwrite" \
+  examples/custom.svg \
+  --vertical \
+  --header-color "#ffdd99" \
+  --graph-attr "bgcolor=transparent,pad=0.5" \
+  --node-attr "fontsize=12,fontname=Verdana"
+```
+
+PowerShell (Windows):
+
+```ps1
+gdalgviz `
+  --pipeline "gdal raster pipeline ! read n43.tif ! color-map --color-map color_file.txt ! tee [ write colored.tif --overwrite ] ! blend --operator=hsv-value --overlay [ read n43.tif ! hillshade -z 30 ] ! write colored-hillshade.tif --overwrite" `
+  examples/custom.svg `
+  --vertical `
+  --font "Courier" `
+  --header-color "#2d4a6e" `
+  --graph-attr "bgcolor=transparent,pad=0.5" `
+  --node-attr "fontsize=12,fontname=Verdana"
+```
+
+![Custom Workflow Diagram](./examples/custom.svg)
+
 ## Features
 
+
 - Handles both JSON and text input. See [JSON Schema](./examples/gdalg.schema.json) for the required JSON structure.
-- SVG output supports clickable nodes that link to the corresponding GDAL documentation for each command. 
+- SVG output supports clickable nodes that link to the corresponding GDAL documentation for each command.
   See the [example](https://raw.githubusercontent.com/geographika/gdalgviz/refs/heads/main/examples/tee.svg).
 - Supports [nested pipelines](https://gdal.org/en/latest/programs/gdal_pipeline.html#nested-pipeline). These
   allow sub-pipelines to be run in parallel and merged later.
-- Supports [tee](https://gdal.org/en/latest/programs/gdal_pipeline.html#output-nested-pipeline) - 
+- Supports [tee](https://gdal.org/en/latest/programs/gdal_pipeline.html#output-nested-pipeline) -
   the operation is named "tee" because it splits the stream, like the letter "T": one input, multiple outputs,
-  and allows saving of intermediate results
+  and allows saving of intermediate results.
+- Supports transparent SVG backgrounds via `--graph-attr "bgcolor=transparent"`.
+- Full access to [Graphviz graph and node attributes](https://graphviz.org/doc/info/attrs.html) via
+  `--graph-attr` and `--node-attr` for fine-grained control over layout, spacing, and typography.
 
 This library does not execute the GDAL pipeline, it only visualizes it. The actual execution of the pipeline is done by GDAL itself.
+
+To execute pipelines directly in Python you will need GDAL with Python bindings installed:
 
 ```python
 from osgeo import gdal

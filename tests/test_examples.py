@@ -317,6 +317,31 @@ def test_all_options():
     assert_svg_equal(output_path, REFERENCE_DIR / "test_all_options.svg")
 
 
+def test_graph_and_node_attr():
+    """Verify graph_attr and node_attr are passed through correctly"""
+    output_path = OUTPUT_DIR / "test_graph_and_node_attr.svg"
+    pipeline = (
+        "gdal raster pipeline ! read in.tif ! slope --unit percent ! write out.tif"
+    )
+    steps = parse_pipeline(pipeline)
+    assert detect_pipeline_type(steps) == "raster"
+    assert_pipeline_equal(steps, "test_graph_and_node_attr")
+    generate_diagram(
+        pipeline,
+        str(output_path),
+        vertical=True,
+        header_color="#ffdd99",
+        graph_attr={
+            "bgcolor": "transparent",
+            "pad": "0.8",
+            "ranksep": "1.5",
+            "nodesep": "0.8",
+        },
+        node_attr={"fontname": "Courier", "fontsize": "12"},
+    )
+    assert_svg_equal(output_path, REFERENCE_DIR / "test_graph_and_node_attr.svg")
+
+
 if __name__ == "__main__":
     test_vector_pipeline()
     test_vector_pipeline_quotes()
@@ -335,4 +360,5 @@ if __name__ == "__main__":
     test_nested_output_vertical()
     test_nested_output_custom_colors()
     test_all_options()
+    test_graph_and_node_attr()
     print("Done!")

@@ -1,0 +1,43 @@
+[
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "raster"
+      },
+      {
+        "type": "positional",
+        "value": "pipeline"
+      }
+    ],
+    "command": "gdal"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "in.tif"
+      }
+    ],
+    "command": "read"
+  },
+  {
+    "args": [
+      {
+        "flag": "unit",
+        "type": "long_arg",
+        "value": "percent"
+      }
+    ],
+    "command": "slope"
+  },
+  {
+    "args": [
+      {
+        "type": "positional",
+        "value": "out.tif"
+      }
+    ],
+    "command": "write"
+  }
+]
